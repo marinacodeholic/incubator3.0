@@ -6,7 +6,7 @@ import {QueryCourseModel} from "./models/QueryCourseModel";
 import {CourseViewModel} from "./models/CourseViewModel";
 import {URIParamsCourseModel} from "./models/URIParamsCourseModel";
 
-export const app = express()
+export const app = express();
 const port = 1133
 
 export const HTTP_STATUSES = {
