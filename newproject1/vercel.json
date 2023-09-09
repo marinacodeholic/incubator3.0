@@ -3,7 +3,8 @@
   "name": "newproject1-express",
   "builds": [
     { "src": "src/index1.ts",
-      "use": "@vercel/node" }
+      "use": "@vercel/node"
+    }
   ],
   "routes": [
     { "src": "/(.*)",
