@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "name": "newproject1-express",
+  "builds": [
+    { "src": "src/index1.ts",
+      "use": "@vercel/node" }
+  ],
+  "routes": [
+    { "src": "/(.*)",
+      "dest": "src/index1.ts" }
+  ]
+}
