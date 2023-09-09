@@ -7,7 +7,7 @@ import {CourseViewModel} from "./models/CourseViewModel";
 import {URIParamsCourseModel} from "./models/URIParamsCourseModel";
 
 export const app = express();
-const port = 1133
+const port = 0808
 
 export const HTTP_STATUSES = {
     OK_200: 200,
