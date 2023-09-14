@@ -1,9 +1,13 @@
 import request from 'supertest'
-import {app, HTTP_STATUSES} from "./index1";
-import {CreateCourseModel} from "./models/CreateCourseModel";
-import {UpdateCourseModel} from "./models/UpdateCourseModel";
+import {app} from "../../src/app";
+import {HTTP_STATUSES} from "../../src/utils"
+import {CreateCourseModel} from "../../src/models/CreateCourseModel";
+import {UpdateCourseModel} from "../../src/models/UpdateCourseModel";
+import {CourseType} from "../../src/db/db";
 
-
+const getRequest = () => {
+    return request(app)
+}
 describe ('/course', () => {
 
     beforeAll(async () => {
@@ -34,7 +38,7 @@ describe ('/course', () => {
 
     let createdCourse1: any = null
 
-    it('should create course with corr input data', async () => {
+    it('should create course1 with corr input data', async () => {
 
         const data: CreateCourseModel = { title: 'love code' };
         const createResponse = await request(app)
@@ -77,7 +81,7 @@ describe ('/course', () => {
 
     let createdCourse2: any = null
 
-    it('create new course', async () => {
+    it('create new course2', async () => {
         const data: CreateCourseModel = { title: 'love 2 code' };
         const createResponse = await request(app)
             .post('/courses')
@@ -116,21 +120,23 @@ describe ('/course', () => {
 
     it('should delete', async () => {
         await request(app)
-            .delete('/courses/' + createdCourse1)
+            .delete('/courses/' + createdCourse1.id)
             .expect(HTTP_STATUSES.NO_CONTENT_204)
 
 
         await request(app)
-            .delete('/courses/' + createdCourse2)
+            .delete('/courses/' + createdCourse2.id)
             .expect(HTTP_STATUSES.NO_CONTENT_204)
 
         await request(app)
-            .get('/courses' + createdCourse2)
+            .get('/courses/' + createdCourse2.id)
             .expect(HTTP_STATUSES.NOT_FOUND_404);
 
         await request(app)
-            .get('/courses' + createdCourse1)
+            .get('/courses/' + createdCourse1.id)
             .expect(HTTP_STATUSES.NOT_FOUND_404);
     })
-
+    // afterAll(done => {
+    //     done()
+    // })
 })
