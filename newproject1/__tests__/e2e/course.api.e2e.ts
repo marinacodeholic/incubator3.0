@@ -141,7 +141,7 @@ describe ('/course', () => {
             .expect(200, []);
 
     })
-    // afterAll(done => {
-    //     done()
-    // })
+    afterAll(done => {
+        done()
+    })
 })

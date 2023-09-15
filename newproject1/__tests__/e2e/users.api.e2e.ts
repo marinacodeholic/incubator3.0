@@ -3,6 +3,7 @@ import {app, RouterPaths} from "../../src/app";
 import {HTTP_STATUSES} from "../../src/utils"
 import {CreateUserModel} from "../../src/features/users/models/CreateUserModel";
 import {UpdateUserModel} from "../../src/features/users/models/UpdateUserModel";
+import {usersTestManager} from "../utils/usersTestManager";
 
 
 const getRequest = () => {
@@ -27,10 +28,8 @@ describe ('test for /users', () => {
 
     it('shouldn\'t create entity with incorr input data', async () => {
         const data: CreateUserModel = {userName: ''};
-        await request(app)
-            .post(RouterPaths.users)
-            .send(data)
-            .expect(HTTP_STATUSES.BAD_REQUEST_400)
+
+        await usersTestManager.createUser(data, HTTP_STATUSES.BAD_REQUEST_400)
 
         await request(app)
             .get(RouterPaths.users)
@@ -39,13 +38,10 @@ describe ('test for /users', () => {
 
     let createdEntity1: any = null
 
-    it('should create course1 with corr input data', async () => {
-
+    it('should create Entity1 with corr input data', async () => {
         const data: CreateUserModel = { userName: 'Mark' };
-        const createResponse = await request(app)
-            .post(RouterPaths.users)
-            .send(data)
-            .expect(HTTP_STATUSES.CREATED_201)
+
+        const createResponse = await usersTestManager.createUser(data)
 
         createdEntity1 = createResponse.body;
 
@@ -62,10 +58,8 @@ describe ('test for /users', () => {
 
     it('create new Entity2', async () => {
         const data: CreateUserModel = { userName: 'Mark 2' };
-        const createResponse = await request(app)
-            .post(RouterPaths.users)
-            .send(data)
-            .expect(HTTP_STATUSES.CREATED_201)
+
+        const createResponse = await usersTestManager.createUser(data)
 
         createdEntity2 = createResponse.body;
 

@@ -1,9 +1,12 @@
 import express, {Response} from "express";
-import {CourseType, DBType, UserType} from "../../db/db";
+import {DBType, UserType} from "../../db/db";
 import {RequestWithBody, RequestWithParams, RequestWithParamsAndBody, RequestWithQuery} from "../../types";
 import {HTTP_STATUSES} from "../../utils";
 import {UserViewModel} from "./models/UserViewModel";
-
+import {CreateUserModel} from "./models/CreateUserModel";
+import {QueryUsersModel} from "./models/QueryUsersModel";
+import {URIParamsUserIdModel} from "./models/URIParamsUserIdModel";
+import {UpdateUserModel} from "./models/UpdateUserModel";
 
 export const mapEntityToViewModel = (dbEntity: UserType): UserViewModel => {
     return{
@@ -13,72 +16,70 @@ export const mapEntityToViewModel = (dbEntity: UserType): UserViewModel => {
 }
 
 export const getUsersRouter = (db: DBType) => {
-    const CoursesRouter = express.Router()
+    const router = express.Router()
 
-
-
-    CoursesRouter.get('/', (req: RequestWithQuery<QueryCourseModel>,
-                            res: Response<CourseViewModel[]>) => {
-        let foundCourses = db.courses
-        if(req.query.title) {
-            foundCourses = foundCourses
-                .filter(c=>c.title.indexOf(req.query.title) > -1)
-        }
-        res.json(foundCourses.map(getCourseViewModel))
-    })
-
-    CoursesRouter.get('/:id', (req: RequestWithParams<URIParamsCourseModel>,
-                               res: Response<CourseViewModel>) => {
-        const foundCourse = db.courses.find(c => c.id === +req.params.id);
-
-        if (!foundCourse) {
-            res.sendStatus(404);
-            return;
-        }
-        res.json(getCourseViewModel(foundCourse))
-    })
-
-    CoursesRouter.post('/', (req: RequestWithBody<CreateCourseModel>,
-                             res: Response<CourseViewModel>) => {
-        if (!req.body.title) {
+    router.post('/', (req: RequestWithBody<CreateUserModel>,
+                      res: Response<UserViewModel>) => {
+        if (!req.body.userName) {
             res.sendStatus(HTTP_STATUSES.BAD_REQUEST_400)
             return
         }
-        const createdCourse: CourseType = {
+        const createdEntity: UserType = {
             id: +(new Date()),
-            title: req.body.title,
-            studentsCount: 0
+            userName: req.body.userName
         }
 
-        db.courses.push(createdCourse) //обязательно ложим в БД
+        db.users.push(createdEntity) //обязательно ложим в БД
 
         res        // обязательно следить за порядком ответа. иначе будет статус 200ок!.
             .status(HTTP_STATUSES.CREATED_201)
-            .json(getCourseViewModel(createdCourse))
+            .json(mapEntityToViewModel(createdEntity))
     })
 
-    CoursesRouter.delete('/', (req: RequestWithParams<URIParamsCourseModel>, res) => {
-        db.courses = db.courses.filter(c => c.id !== +req.params.id);
+    router.get('/', (req: RequestWithQuery<QueryUsersModel>,
+                            res: Response<UserViewModel[]>) => {
+        let foundEntities = db.users
+        if(req.query.userName) {
+            foundEntities = foundEntities
+                .filter(c=>c.userName.indexOf(req.query.userName) > -1)
+        }
+        res.json(foundEntities.map(mapEntityToViewModel))
+    })
+
+    router.get('/:id', (req: RequestWithParams<URIParamsUserIdModel>,
+                               res: Response<UserViewModel>) => {
+        const foundUser = db.users.find(c => c.id === +req.params.id);
+
+        if (!foundUser) {
+            res.sendStatus(404);
+            return;
+        }
+        res.json(mapEntityToViewModel(foundUser))
+    })
+
+
+    router.delete('/:id', (req: RequestWithParams<URIParamsUserIdModel>, res) => {
+        db.users = db.users.filter(c => c.id !== +req.params.id);
 
         res.sendStatus(HTTP_STATUSES.NO_CONTENT_204)
     })
 
-    CoursesRouter.put('/:id', (req: RequestWithParamsAndBody<URIParamsCourseModel,UpdateCourseModel>,
+    router.put('/:id', (req: RequestWithParamsAndBody<URIParamsUserIdModel,UpdateUserModel>,
                                res) => {
-        if (!req.body.title){
+        if (!req.body.userName){
             res.sendStatus(HTTP_STATUSES.BAD_REQUEST_400)
             return;
         }
 
-        const foundCourse = db.courses.find(c => c.id === +req.params.id);
-        if (!foundCourse) {
+        const foundUser = db.users.find(c => c.id === +req.params.id);
+        if (!foundUser) {
             res.sendStatus(404);
             return;
         }
-        foundCourse.title = req.body.title;
+        foundUser.userName = req.body.userName;
         res
             .sendStatus(HTTP_STATUSES.NO_CONTENT_204)
-            .json(foundCourse)
+            .json(foundUser)
     })
-    return CoursesRouter
+    return router
 }

@@ -109,5 +109,7 @@
   "include": ["src/**/*", "_tests__/e2e/**/*"],
   "exclude": ["node_modules", "**/*.test.ts"],
   "files": ["src/index1.ts",
-    "__tests__/e2e/course.api.test.ts", "__tests__/e2e/users.api.test.ts"],
+    "__tests__/e2e/course.api.e2e.ts",
+    "__tests__/e2e/users.api.e2e.ts"
+  ],
 }

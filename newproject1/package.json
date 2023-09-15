@@ -7,7 +7,7 @@
   "scripts": {
     "dev1": "yarn nodemon --inspect dist/src/index1.js",
     "watch1": "tsc -w",
-    "test": "jest\"__tests__/.*\\.e2e\\.ts\" --runInBand --detectOpenHandles --forceExit"
+    "test-e2e": "jest --runInBand --detectOpenHandles --forceExit --config ./__tests__/jest-e2e.config.js"
   },
   "dependencies": {
     "@types/jest": "^29.5.4",
