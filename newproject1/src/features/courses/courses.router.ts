@@ -1,12 +1,12 @@
 import express, {Response} from "express";
-import {CourseType, DBType} from "../db/db";
-import {CourseViewModel} from "../models/CourseViewModel";
-import {RequestWithBody, RequestWithParams, RequestWithParamsAndBody, RequestWithQuery} from "../types";
-import {QueryCourseModel} from "../models/QueryCourseModel";
-import {URIParamsCourseModel} from "../models/URIParamsCourseModel";
-import {UpdateCourseModel} from "../models/UpdateCourseModel";
-import {CreateCourseModel} from "../models/CreateCourseModel";
-import {HTTP_STATUSES} from "../utils";
+import {CourseType, DBType} from "../../db/db";
+import {CourseViewModel} from "./models/CourseViewModel";
+import {RequestWithBody, RequestWithParams, RequestWithParamsAndBody, RequestWithQuery} from "../../types";
+import {QueryCourseModel} from "./models/QueryCourseModel";
+import {URIParamsCourseModel} from "./models/URIParamsCourseModel";
+import {UpdateCourseModel} from "./models/UpdateCourseModel";
+import {CreateCourseModel} from "./models/CreateCourseModel";
+import {HTTP_STATUSES} from "../../utils";
 
 
 

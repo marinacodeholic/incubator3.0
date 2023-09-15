@@ -1,8 +1,8 @@
 import {DBType} from "../db/db";
 import express from "express";
 import {RequestWithParams, RequestWithQuery} from "../types";
-import {URIParamsCourseModel} from "../models/URIParamsCourseModel";
-import {QueryCourseModel} from "../models/QueryCourseModel";
+import {URIParamsCourseModel} from "../features/courses/models/URIParamsCourseModel";
+import {QueryCourseModel} from "../features/courses/models/QueryCourseModel";
 
 
 
