@@ -10,7 +10,6 @@ export const usersTestManager = {
             .post(RouterPaths.users)
             .send(data)
             .expect(expectedStatusCode)
-
         return response;
     }
 }
